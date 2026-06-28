@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Momchips - Kripik premium dari PT. BUMI ARJUNA INDONESIA. Kripik singkong, ubi ungu, ubi orange, dan pisang dengan bahan alami terbaik dari tanah Indonesia."
+    />
+    <title>Momchips — Kripik Premium | PT. BUMI ARJUNA INDONESIA</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;0,9..144,900;1,9..144,800;1,9..144,900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Apply persisted theme before paint to avoid flash of incorrect theme. -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('momchips-theme');
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (stored === 'dark' || (!stored && prefersDark)) {
+            document.documentElement.classList.add('dark');
+          }
+          var lang = localStorage.getItem('momchips-lang');
+          if (lang === 'en' || lang === 'id') {
+            document.documentElement.setAttribute('lang', lang);
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <!--
+      Preloader styles — inlined so the loader is themed and animated from the
+      very first paint, before the main CSS bundle (injected by JS in dev)
+      arrives. Mirrors the brand tokens in index.css.
+    -->
+    <style>
+      :root {
+        --loader-bg: 255 248 240; /* cream #FFF8F0 */
+        --loader-fg: 214 40 40; /* primary #D62828 */
+      }
+      html.dark {
+        --loader-bg: 18 8 8; /* deep warm near-black #120808 */
+        --loader-fg: 214 40 40;
+      }
+
+      .app-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgb(var(--loader-bg));
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+      }
+      .app-loader.is-hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      .app-loader__inner {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 28px;
+        animation: loader-in 0.4s ease-out;
+      }
+
+      .app-loader__logo {
+        width: 84px;
+        height: 84px;
+        object-fit: contain;
+        animation: loader-pulse 1.6s ease-in-out infinite;
+        will-change: transform;
+      }
+
+      /* Spinner ring wrapping the logo */
+      .app-loader__spinner {
+        position: absolute;
+        top: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 104px;
+        height: 104px;
+        border: 3px solid rgb(var(--loader-fg) / 0.12);
+        border-top-color: rgb(var(--loader-fg));
+        border-radius: 50%;
+        animation: loader-spin 0.9s linear infinite;
+        will-change: transform;
+      }
+
+      .app-loader__text {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: rgb(var(--loader-fg));
+        opacity: 0.7;
+      }
+
+      @keyframes loader-in {
+        from { opacity: 0; transform: scale(0.85); }
+        to   { opacity: 1; transform: scale(1); }
+      }
+      @keyframes loader-pulse {
+        0%, 100% { transform: translateY(0) scale(1); }
+        50%      { transform: translateY(-4px) scale(1.06); }
+      }
+      @keyframes loader-spin {
+        to { transform: translateX(-50%) rotate(360deg); }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .app-loader__inner { animation: none; }
+        .app-loader__logo { animation: none; }
+        .app-loader__spinner { animation: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Preloader overlay — dismissed by App.jsx once React has mounted. -->
+    <div id="app-loader" class="app-loader" role="status" aria-live="polite">
+      <div class="app-loader__inner">
+        <img src="/momchips.png" alt="Momchips" class="app-loader__logo" />
+        <span class="app-loader__spinner" aria-hidden="true"></span>
+        <span class="app-loader__text">Memuat…</span>
+      </div>
+    </div>
+
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+
+    <!-- Safety net: dismiss the loader on full load or after a hard timeout. -->
+    <script>
+      (function () {
+        function hideLoader() {
+          var el = document.getElementById('app-loader');
+          if (el) {
+            el.classList.add('is-hidden');
+            setTimeout(function () { if (el && el.parentNode) el.parentNode.removeChild(el); }, 600);
+          }
+        }
+        window.addEventListener('load', function () { setTimeout(hideLoader, 400); });
+        // Hard fallback in case 'load' never fires (e.g. a blocked resource).
+        setTimeout(hideLoader, 6000);
+      })();
+    </script>
+  </body>
+</html>

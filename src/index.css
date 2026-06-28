@@ -1,0 +1,427 @@
+@import "tailwindcss";
+
+/*
+ * ============================================================
+ * THEME TOKENS
+ * Brand colors (primary/gold/dark) are constant across themes.
+ * Semantic tokens (surface/content/border) swap between themes.
+ *
+ * Two sets of variables:
+ *   --color-*  → used by Tailwind v4 @theme for utility classes
+ *   --rgb-*    → used by custom CSS for rgb() / alpha mixing
+ * ============================================================
+ */
+
+/* ── Tailwind v4 theme (hex values) ── */
+@theme {
+  --color-primary: #D62828;
+  --color-primary-dark: #9B1C1C;
+  --color-primary-light: #F23838;
+  --color-gold: #F4A261;
+  --color-dark: #1A0505;
+  --color-cream: #FFF8F0;
+  --color-cream-dark: #FAEED5;
+  --color-surface: #FFF8F0;
+  --color-surface-2: #FAEED5;
+  --color-surface-3: #FFFFFF;
+  --color-content: #1A0505;
+  --color-content-soft: #433838;
+  --color-content-muted: #6B5454;
+  --color-border: #1A0505;
+}
+
+/* ── RGB triplets used by custom CSS (light) ── */
+:root {
+  --rgb-primary: 214 40 40;
+  --rgb-primary-dark: 155 28 28;
+  --rgb-primary-light: 242 56 56;
+  --rgb-gold: 244 162 97;
+  --rgb-dark: 26 5 5;
+  --rgb-cream: 255 248 240;
+  --rgb-cream-dark: 250 238 213;
+  --rgb-surface: 255 248 240;
+  --rgb-surface-2: 250 238 213;
+  --rgb-surface-3: 255 255 255;
+  --rgb-content: 26 5 5;
+  --rgb-content-soft: 67 56 56;
+  --rgb-content-muted: 107 84 84;
+  --rgb-border: 26 5 5;
+}
+
+/* ── Dark mode ── */
+.dark {
+  --color-cream: #120808;
+  --color-cream-dark: #1A0E0E;
+  --color-surface: #120808;
+  --color-surface-2: #1A0E0E;
+  --color-surface-3: #221212;
+  --color-content: #FAF0E6;
+  --color-content-soft: #D2C4BE;
+  --color-content-muted: #9E8A8A;
+  --color-border: #FFF8F0;
+
+  --rgb-cream: 18 8 8;
+  --rgb-cream-dark: 26 14 14;
+  --rgb-surface: 18 8 8;
+  --rgb-surface-2: 26 14 14;
+  --rgb-surface-3: 34 18 18;
+  --rgb-content: 250 240 230;
+  --rgb-content-soft: 210 196 190;
+  --rgb-content-muted: 158 138 138;
+  --rgb-border: 255 248 240;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: rgb(var(--rgb-surface));
+  color: rgb(var(--rgb-content));
+  overflow-x: hidden;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Custom scrollbar — theme aware */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: rgb(var(--rgb-surface-2));
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--rgb-primary));
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--rgb-primary-dark));
+}
+
+::selection {
+  background: rgb(var(--rgb-primary));
+  color: white;
+}
+
+/* ── Component utilities ── */
+
+/* Navigation */
+#navbar.scrolled {
+  background: rgb(var(--rgb-surface) / 0.85);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 4px 30px rgb(var(--rgb-primary) / 0.08);
+}
+.nav-link {
+  position: relative;
+  color: rgb(var(--rgb-content));
+  transition: color 0.3s;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: rgb(var(--rgb-primary));
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-link:hover {
+  color: rgb(var(--rgb-primary));
+}
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.font-display {
+  font-family: 'Fraunces', serif;
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: rgb(var(--rgb-primary));
+  color: white;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+.btn-primary:hover::before {
+  transform: translateX(100%);
+}
+.btn-primary:hover {
+  background-color: rgb(var(--rgb-primary-dark));
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px rgb(var(--rgb-primary) / 0.35);
+}
+.btn-outline {
+  border: 2px solid rgb(var(--rgb-border) / 0.15);
+  transition: all 0.3s;
+  color: rgb(var(--rgb-content));
+}
+.btn-outline:hover {
+  border-color: rgb(var(--rgb-primary));
+  color: rgb(var(--rgb-primary));
+  transform: translateY(-2px);
+}
+
+/* Dot pattern */
+.dot-pattern {
+  background-image: radial-gradient(
+    circle,
+    rgb(var(--rgb-primary)) 1.5px,
+    transparent 1.5px
+  );
+  background-size: 32px 32px;
+  opacity: 0.08;
+}
+
+/* Pulse glow */
+.pulse-glow {
+  animation: pulse-glow 2s infinite;
+}
+
+/* Reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Product card */
+.product-card {
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+.product-card:hover {
+  transform: translateY(-12px);
+}
+.product-card .chip-illustration {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.product-card:hover .chip-illustration {
+  transform: scale(1.1) rotate(-5deg);
+}
+
+/* Product carousel track */
+.product-track {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.product-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* SVG chip drop shadow */
+.chip-svg {
+  filter: drop-shadow(0 25px 30px rgba(0, 0, 0, 0.15));
+}
+
+/* Stats gradient text */
+.stat-number {
+  background: linear-gradient(
+    135deg,
+    rgb(var(--rgb-primary)) 0%,
+    rgb(var(--rgb-primary-dark)) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  background: rgb(var(--rgb-surface-3));
+  color: rgb(var(--rgb-content));
+  padding: 18px 24px;
+  border-radius: 14px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.18);
+  transform: translateX(450px);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 100;
+  border-left: 4px solid rgb(var(--rgb-primary));
+  max-width: 380px;
+}
+.toast.show {
+  transform: translateX(0);
+}
+
+/* Mobile menu */
+.mobile-menu {
+  transform: translateX(100%);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.mobile-menu.open {
+  transform: translateX(0);
+}
+
+/* Form inputs */
+.form-input {
+  background: rgb(var(--rgb-surface-3));
+  border: 2px solid rgb(var(--rgb-border) / 0.1);
+  color: rgb(var(--rgb-content));
+  transition: all 0.3s;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.form-input::placeholder {
+  color: rgb(var(--rgb-content-muted));
+}
+.form-input:focus {
+  outline: none;
+  border-color: rgb(var(--rgb-primary));
+  box-shadow: 0 0 0 4px rgb(var(--rgb-primary) / 0.1);
+}
+
+/* Gallery */
+.gallery-item {
+  overflow: hidden;
+  position: relative;
+  border-radius: 24px;
+}
+.gallery-item img {
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.gallery-item:hover img {
+  transform: scale(1.12);
+}
+.gallery-item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(26, 5, 5, 0.6), transparent 50%);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.gallery-item:hover::after {
+  opacity: 1;
+}
+
+/* Process line */
+.process-line {
+  background: linear-gradient(
+    90deg,
+    rgb(var(--rgb-primary)) 0%,
+    rgb(var(--rgb-primary-light)) 50%,
+    rgb(var(--rgb-gold)) 100%
+  );
+}
+
+/* Hero text effect */
+.hero-title {
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+}
+
+/* Glow orb */
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* Tag */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Featured ribbon */
+.ribbon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: rgb(var(--rgb-primary));
+  color: white;
+  padding: 8px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  box-shadow: 0 8px 20px rgb(var(--rgb-primary) / 0.3);
+  border-bottom-left-radius: 14px;
+}
+
+/* Marquee */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 28s linear infinite;
+}
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Keyframes */
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(var(--rgb-primary) / 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 14px rgb(var(--rgb-primary) / 0);
+  }
+}
+
+/* Scroll indicator — efek laser bergulir lembut */
+@keyframes scroll-roll {
+  to { background-position: 0 16px; }
+}
+
+.animate-scroll-roll {
+  background: linear-gradient(
+    to bottom,
+    rgb(var(--rgb-primary) / 0) 0%,
+    rgb(var(--rgb-primary)) 20%,
+    rgb(var(--rgb-primary) / 0.4) 35%,
+    rgb(var(--rgb-primary) / 0) 50%,
+    rgb(var(--rgb-primary)) 70%,
+    rgb(var(--rgb-primary) / 0.4) 85%,
+    rgb(var(--rgb-primary) / 0) 100%
+  );
+  background-size: 100% 32px;
+  box-shadow: 0 0 6px rgb(var(--rgb-primary) / 0.35),
+              0 0 12px rgb(var(--rgb-primary) / 0.15);
+  animation: scroll-roll 2.5s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
